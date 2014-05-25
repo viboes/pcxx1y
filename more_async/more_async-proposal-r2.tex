@@ -1,0 +1,819 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[american]
+           {babel} % needed for iso dates
+\usepackage{url}
+\usepackage{lmodern}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage{hyperref}
+\usepackage{array}
+\usepackage{underscore}   % remove special status of '_' in ordinary text
+\usepackage{changepage}   % for the adjustwidth environment
+\usepackage{verbatim}     % improved verbatim environment
+\usepackage{alltt}
+
+\hypersetup{
+  hidelinks
+}
+
+\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}
+
+\usepackage{color}
+\usepackage{textpos}
+\usepackage{titling}
+
+\usepackage{titlesec}
+
+\setcounter{secnumdepth}{6}
+
+% From std draft
+% We use the 'listings' package, with some small customizations.  The
+% most interesting customization: all TeX commands are available
+% within comments.  Comments are set in italics, keywords and strings
+% don't get special treatment.
+% General code style
+\lstset{language=C++,
+        basicstyle=\small\ttfamily,
+        keywordstyle=,
+        stringstyle=,
+        xleftmargin=1em,
+        showstringspaces=false,
+        commentstyle=\itshape\rmfamily,
+        columns=flexible,
+        keepspaces=true,
+        texcl=true
+}
+% end from std draft
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{update_color}{cmyk}{0.1,0,0.1,0}
+\definecolor{suppress_color}{cmyk}{0,0.1,0,0}
+%\definecolor{gray}{rgb}{0.5,0.5,0.5}
+%\definecolor{mauve}{rgb}{0.58,0,0.82}
+% 
+%\lstset{
+%  language=c++,                % the language of the code
+%  basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+%  numbers=left,                   % where to put the line-numbers
+%  numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+%  stepnumber=0,                   % the step between two line-numbers. If it's 1, each line 
+%                                  % will be numbered
+%  numbersep=5pt,                  % how far the line-numbers are from the code
+%  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+%  showtabs=false,                 % show tabs within strings adding particular underscores
+%  frame=single,                   % adds a frame around the code
+%  rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+%  tabsize=2,                      % sets default tabsize to 2 spaces
+%  captionpos=b,                   % sets the caption-position to bottom
+%  breaklines=true,                % sets automatic line breaking
+%  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+%  title=\lstname,                   % show the filename of files included with \lstinputlisting;
+%                                  % also try caption instead of title
+%  keywordstyle=\color{blue},          % keyword style
+%  commentstyle=\color{dkgreen},       % comment style
+%  stringstyle=\color{mauve},         % string literal style
+%  morekeywords={initial\_state, final\_state, nextstate},
+%  extendedchars=true,
+%  literate={é}{{\'e}}1 {è}{{\`e}}1 {à}{{\`a}}1 {ç}{{\c{c}}}1 {œ}{{\oe}}1 {ù}{{\`u}}1
+%  {É}{{\'E}}1 {È}{{\`E}}1 {À}{{\`A}}1 {Ç}{{\c{C}}}1 {Œ}{{\OE}}1 {Ê}{{\^E}}1
+%  {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+%}
+
+\newcommand{\wordingUpdateSec}[2]{\vspace{15pt}
+\noindent
+{\large\textbf{\quad #1\hfill\textbf{[#2]}}}
+}
+
+\newcommand{\wordingUpdateSubSec}[2]{\vspace{15pt}
+\noindent
+{\textbf{\quad #1\hfill\textbf{[#2]}}}
+\label{#2}
+\vspace{7pt}
+}
+
+\newcommand{\wordingUpdateSubSubSec}[2]{\vspace{15pt}
+\noindent
+{\textbf{\quad #1\hfill\textbf{[#2]}}}
+\label{#2}
+\vspace{7pt}
+}
+
+\newcommand{\wordingNewSec}[2]{\vspace{15pt}
+\noindent
+{\large\textbf{\quad #1\hfill\textbf{[#2]}}}
+}
+
+\newcommand{\wordingNewSubSec}[2]{\vspace{15pt}
+\noindent
+{\textbf{\quad #1\hfill\textbf{[#2]}}}
+\label{#2}
+\vspace{7pt}
+}
+
+\newcommand{\wordingNewSubSubSec}[2]{\vspace{15pt}
+\noindent
+{\textbf{\quad #1\hfill\textbf{[#2]}}}
+\label{#2}
+\vspace{7pt}
+}
+
+
+\newcommand{\wordingSec}[2]{\vspace{15pt}
+\noindent
+{\large\textbf{X.Y\quad #1\hfill\textbf{[#2]}}}
+}
+
+% Counters
+\newcounter{countWordingSubSec}
+\newcounter{countWordingSubSubSec}[countWordingSubSec]
+
+\renewcommand{\thecountWordingSubSec}{X.Y.\arabic{countWordingSubSec}}
+\renewcommand{\thecountWordingSubSubSec}{X.Y.\arabic{countWordingSubSec}.\arabic{countWordingSubSubSec}}
+
+% Defs of sub and subsub section (for the wording).
+\newcommand{\wordingSubSec}[2]{\vspace{15pt}
+\refstepcounter{countWordingSubSec}
+\noindent
+{\textbf{\thecountWordingSubSec\quad #1\hfill\textbf{[#2]}}}
+\label{#2}
+\vspace{7pt}
+}
+
+\newcommand{\wordingSubSubSec}[2]{\vspace{15pt}
+\refstepcounter{countWordingSubSubSec}
+\noindent
+{\textbf{\thecountWordingSubSubSec\quad #1\hfill\textbf{[#2]}}}
+\label{#2}
+\vspace{7pt}
+}
+
+\newcommand{\cpp}[1]{\lstinline{#1}}
+
+% Wording items
+\newcommand{\wordingItem}[1]{\noindent\textit{#1:}}
+
+\newenvironment{wordingTextItem}[1]{\wordingItem{#1}\vspace{7pt}\noindent\begin{adjustwidth}{12pt}{}}{\vspace{7pt}\end{adjustwidth}}
+
+\newenvironment{wordingPara}{\begin{adjustwidth}{12pt}{}}{\end{adjustwidth}}
+
+\newenvironment{Effects}{\wordingItem{Effects}\vspace{7pt}\noindent\begin{adjustwidth}{12pt}{}}{\vspace{7pt}\end{adjustwidth}}
+
+\newenvironment{Throws}{\wordingItem{Throws}\vspace{7pt}\noindent\begin{adjustwidth}{12pt}{}}{\vspace{7pt}\end{adjustwidth}}
+
+\newenvironment{Synchronization}{\wordingItem{Synchronization}\vspace{7pt}\noindent\begin{adjustwidth}{12pt}{}}{\vspace{7pt}\end{adjustwidth}}
+
+\newenvironment{Returns}{\wordingItem{Returns}\vspace{7pt}\noindent\begin{adjustwidth}{12pt}{}}{\vspace{7pt}\end{adjustwidth}}
+
+\newenvironment{Requires}{\wordingItem{Requires}\vspace{7pt}\noindent\begin{adjustwidth}{12pt}{}}{\vspace{7pt}\end{adjustwidth}}
+
+\newenvironment{preconditions}{\wordingItem{Preconstion(s)}\vspace{7pt}\noindent\begin{adjustwidth}{12pt}{}}{\vspace{7pt}\end{adjustwidth}}
+
+\newenvironment{Postconditions}{\wordingItem{Postconstion(s)}\vspace{7pt}\noindent\begin{adjustwidth}{12pt}{}}{\vspace{7pt}\end{adjustwidth}}
+
+\newenvironment{Remarks}{\wordingItem{Remark(s)}\vspace{7pt}\noindent\begin{adjustwidth}{12pt}{}}{\vspace{7pt}\end{adjustwidth}}
+
+\newenvironment{Notes}{\wordingItem{Note(s)}\vspace{7pt}\noindent\begin{adjustwidth}{12pt}{}}{\vspace{7pt}\end{adjustwidth}}
+
+
+% 
+\newcommand{\requires}{\textbf{Requires}: } 
+\newcommand{\postcondition}{\textbf{PostCondition}: } 
+\newcommand{\postconditions}{\textbf{PostConditions}: } 
+\newcommand{\effects}{\textbf{Effects}: } 
+\newcommand{\returns}{\textbf{Returns}: } 
+\newcommand{\notes}{\textbf{Note(s)}: } 
+\newcommand{\remark}{\textbf{Remark}: } 
+\newcommand{\remarks}{\textbf{Remark(s)}: } 
+
+\newcommand{\add}[1]{\textcolor{dkgreen}{#1}}
+\newcommand{\suppress}[1]{\colorbox{suppress_color}{#1}}
+\newcommand{\update}[1]{\colorbox{update_color}{#1}}
+\newcommand{\replace}[2]{\suppress{#1}\update{#2}}
+
+\setlength{\droptitle}{10em}
+\title{More Improvements to std::future<T> - Revision 2}
+\author{}
+\date{}
+
+
+\begin{document}
+
+\maketitle
+\begin{textblock*}{9cm}(7cm,-8cm)
+\begin{tabular}{l l}
+\textbf{Document number:} & DXXXX \\
+\textbf{Date:}  & 2014/05/25 \\
+\textbf{Revises:} & N3865 \\
+\textbf{Project:} & JTC1.22.32 Programming \\
+ & Language C++ \\
+\textbf{Reply to:} & Vicente J. Botet Escrib\'{a} \\
+ & <\href{mailto:vicente.botet@wanadoo.fr}{vicente.botet@wanadoo.fr}> 
+  
+\end{tabular}
+\end{textblock*}
+
+\vspace{-6em}
+\setcounter{tocdepth}{1}
+
+This paper complements "N3784 Improvements to \cpp{std::future<T>} and Related APIs" \cite{N3784} with more future observers and factories.
+
+
+\tableofcontents
+
+\section{History}
+
+\begin{itemize}
+\item{2nd revision: }
+\begin{itemize}
+\item Rename \cpp{next} by  \cpp{bind}.
+\item Rename \cpp{recover} by  \cpp{catch_error}.
+\item Added \cpp{map}.
+\item Added \cpp{unexpected_type<E>} template class.
+\item Added the free function \cpp{make_unexpected()}.
+\item Removed the free function \cpp{make_exceptional_ptr()}.
+\item Rename \cpp{exceptional_ptr} by  \cpp{unexpected_type<exception_ptr>}.
+\item Change the \cpp{get_exception_ptr()} member function by a free function \cpp{exception_ptr_cast()}.
+\item Added the free function \cpp{unexpected_cast()}.
+\end{itemize}
+
+\update{1st revision: } This revision was presented during the Issaquah meeting and has
+\begin{itemize}
+\item Removed \cpp{get_value()} as the exception guaranties can not be improved respect to \cpp{get()}. 
+\item Replaced \cpp{make_exceptional_future(Exception)} by \cpp{make_exceptional(Exception)}. 
+\item Make \cpp{future}/\cpp{shared_future} implicitly convertible from the result of \cpp{make_exceptional}. 
+\item Added \cpp{when_swapped_any(Range)}. 
+\item Associated a wide contract to \cpp{future<T>::get_exception_ptr()}.
+\end{itemize}
+\end{itemize}
+
+\section{Introduction}
+%%%%%%%%%%%
+
+This proposal is an evolution of the functionality of \cpp{std::future}/\cpp{std::shared_future} that complements the proposal "N3784 Improvements to \cpp{std::future<T>} and Related APIs"  \cite{N3784} with more future observers and factories mainly based on the split between futures having a value or a exception.
+
+\section{Motivation and Scope}
+%%%%%%%%%%%%%%%%
+
+This proposal introduces the following asynchronous observer operations:
+
+\cpp{.has_value()}:
+
+This observer has the same "raison d'etre" than the \cpp{ready()} function proposed in  \cite{N3784} respect to the function \cpp{.then()}, but in this case respect to the functions \cpp{.map()}, \cpp{.bind()} and \cpp{.catch_error()} respectively.
+
+ \cpp{exception_ptr_cast()}:
+
+In some situations it is needed to store the exception stored in a \cpp{future} on another data structure. 
+
+With the current interface we need to try to get the value on a try-catch block and store the current exception on the data structure. 
+
+\begin{alltt}
+try \{ f.get(); \} catch(...) \{ ex = std::current_exception;() \};
+\end{alltt}
+
+Been able to retrieve the stored exception would not only simplify the user code but also improve the efficiency of this code. The \cpp{exception_ptr_cast()} function is there for this purpose.
+
+
+\begin{alltt}
+ex = exception_ptr_cast(f);
+\end{alltt}
+ 
+
+\cpp{.value_or(v)}:
+
+Quite often the user has a fallback value that should be used when the future has an exception.
+
+\begin{lstlisting}[xleftmargin=0pt]
+x = f.value_or(v);
+\end{lstlisting}
+
+is a shortcut for 
+\begin{alltt}
+try \{ x = f.get(); \} catch(...) \{ x = v \};
+\end{alltt}
+
+And the following future factories
+
+\cpp{.map(f)}, \cpp{.bind(f)} and \cpp{.catch_error(r)}:
+
+These functions behave like \cpp{.then()} but will call the continuation only when the future is ready with a value or an exception respectively. The continuations takes the future value type or an \cpp{exception_ptr} as parameter respectively. This has the advantage to make easier the continuation definition as is a lot of cases there is no need to protect the \cpp{future<T>::get()} operation against an exception thrown.
+
+\cpp{.fallback_to(v)}:
+
+Sometimes the user has a fallback value that should be used when the future has an exception. This factory creates a new future that will fallback to the parameter if the source future will be ready with an exception. The following 
+
+\begin{lstlisting}[xleftmargin=0pt]
+  f.fallback_to(v);
+\end{lstlisting}
+
+is a shortcut for 
+
+\begin{lstlisting}[xleftmargin=0pt]
+  f.then([](future<T> f) {
+    return f.value_or(v);
+  })
+\end{lstlisting}
+
+\cpp{make_unexpected(e)} and \cpp{future<T>(unexpected_type<E>)}:
+
+We think that the case for functions that know that an exception must be thrown at the point of construction are as often than the ones that know the value. In both cases the result is know immediately but must be returned as future. By using \cpp{make_unexpected} a future can be created implicitly which hold a precomputed exception on its shared state. 
+
+\cpp{when_all}/\/\cpp{when_any}/\cpp{when_swapped_any}:
+
+New overloads of the \cpp{when_all()}/\cpp{when_any}/\cpp{when_swapped_any} factories that take a range of futures as argument. And return a future container of the future values.
+
+\section{Impacts on the Standard}
+%%%%%%%%%%%%%%%%%
+
+These changes are entirely based on library extensions and do not require any language features beyond what is available in C++ 11/14. The definition of a standard representation of asynchronous operations described in this document will have very limited impact on existing libraries, largely due to the fact that it is being proposed exactly to enable the development of a new class of libraries and APIs with a common model for functional composition. 
+
+\section{Design rationale}
+%%%%%%%%%%%%%
+
+\subsection{\cpp{.map} / \cpp{.bind} / \cpp{catch_error}}
+%%%%%%%%%%%%%%%%
+
+The proposal to include \cpp{future.map}/\cpp{future.bind}/\cpp{future.recover} to the standard provides the ability to sequentially compose two futures by declaring one to be the continuation of another. With \cpp{.map}/\cpp{.bind} the antecedent future has a value before the continuation starts as instructed by the lambda function. The single difference is that  \cpp{.map} wraps always the result and \cpp{.bind} does it only if the result is not a future. With \cpp{.catch_error} the antecedent future has an exception before the continuation starts as instructed by the lambda function.
+ 
+In the example below the \cpp{future<int> f2} is registered to be a continuation of \cpp{future<int> f1} using the \cpp{.map} 
+member function. This operation takes a lambda function which describes how \cpp{f2} should proceed with the future value. If the future is ready having an exception this functions returns the future itself.
+
+\begin{lstlisting}[xleftmargin=0pt]
+#include <future> 
+using namespace std; 
+int main() { 
+  future<int> f1 = async([]() { throw "foo"; }); 
+ 
+  future<string> f2 = f1
+    .map([](int v) { 
+      return v.to_string();
+    })
+    .catch_error([](exception_ptr ex) {
+	return "nan";
+    }); 
+}
+\end{lstlisting}
+ 
+As \cpp{.then()} these functions allows to chain multiple asynchronous operations. By using \cpp{future.map}/\cpp{future.bind}/\cpp{future.recover}, creating a chain of continuations becomes straightforward and intuitive:
+ 
+\begin{lstlisting}[xleftmargin=0pt]
+myFuture.map(...).bind (...).bind (...).catch_error(...). 
+\end{lstlisting}
+
+Some points to note are: 
+
+\begin{itemize}
+\item Each continuation will not begin until the preceding has completed.
+\item The exception thrown by a continuation are caught by the respective functions and the exception is propagated to the resulting future type. 
+\end{itemize}
+
+Input Parameters: 
+
+\begin{itemize}
+\item Lambda function: The lambda function on \cpp{map()}/\cpp{bind()} takes a 
+\cpp{future<t>::value_type}. The lambda function on \cpp{catch_error()} takes an \cpp{exception_ptr}. Both could return whatever type. This makes propagating exceptions straightforward. This approach also simplifies the chaining of continuations.
+ 
+\item Executor: As \cpp{future<T>::then()}, an overloaded version on \cpp{.map}/\cpp{.bind}/\cpp{.catch_error} takes a reference to an executor object as an additional parameter. See there for more details.
+
+\item Launch policy: As \cpp{future<T>::then()}. 
+\end{itemize}
+
+Return values: a \cpp{future} as it does \cpp{future<t>::then()}.
+
+\subsection{\cpp{has_value()}  and \cpp{exception_ptr_cast()}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The concept of checking if the shared state has a value or an exception already exists in the standard today. For example, calling 
+\cpp{.get()} on a function internally checks if the shared state has a value, and if it isn't it throws an exception. These functions expose this ability to check the shared state to the programmer, and allows them to bypass the act of using a try-catch block to catch the stored exception. The example below illustrates using the ready member function to avoid using a try-catch block to manage with exceptions.
+
+\begin{alltt}
+#include <future> 
+using namespace std; 
+
+int main() \{ 
+ 
+  future<int> f1 = async([]() { return possibly_long_computation(); }); 
+  // later on when needed 
+  if(!f1.ready()) \{ 
+    //if not ready, attach a continuation and avoid a blocking wait 
+    fl.map([] (int v) \{ 
+      process_value(v); 
+    \}); 
+  \} else if (f.has_value()) \{ 
+  //if ready and has_value, then no need to add continuation, 
+  // process value right away 
+      process_value(f1.get()); 
+  \} else
+      process_exception(exception_ptr_cast(f1)); 
+\} 
+\end{alltt}
+
+The decision to add these functions as a member of the \cpp{future} and \cpp{shared_future} classes was straightforward, as this concept already implicitly exists in the standard (In particular Boost.Thread provides them since the beginning). Note that this functionality can not be obtained by the user directly. By explicitly allowing the programmer to check the shared state of a \cpp{future}, improvements on performance can be made.  
+ 
+\subsection{\cpp{make_unexpected}}
+%%%%%%%%%%%%%%%%%%%%%%
+
+This function creates an exceptional instance implicitly convertible to a \cpp{future<T>} for a given exception. If no value is given then a \cpp{future<T>} is returned with the current exception stored. These functions are primarily useful in cases where sometimes, the exceptional case is immediately available, but sometimes it is not. The example below illustrates, that in an error path the value is known immediately, however in other usual path needing a short computation there is no need to do this task asynchronously. Last in the  less usual path the function must return an eventual value represented as a \cpp{future} as it could take long time. 
+
+\begin{alltt}
+future<int> compute(int x) { 
+ 
+  if (x < 0) return make_unexpected(invalid_argument());
+  if (x == 0) 
+    try { do_some_short_work(); } 
+    catch (...) {�make_unexpected(); }
+ 
+  future<int> f1 = async([]() { return do_some_long_work(x); }); 
+  return f1; 
+}
+\end{alltt}
+
+\section{Proposed Wording}
+%%%%%%%%%%%%%%
+
+The proposed changes are expressed as edits to N3797, the C++ Draft Standard \cite{CXX_DRAFT}. The wording has been adapted from N3857  \cite{N3857}.
+
+\noindent
+Update section
+
+\wordingUpdateSubSubSec{30.6.1 Overview}{futures.overview}
+
+\noindent
+Header <future> synopsis
+
+\begin{lstlisting}[xleftmargin=0pt]
+namespace std {
+  ...
+\end{lstlisting}
+\begin{alltt}
+\add{
+  // 30.6.x, Algebraic factories
+  template <class Range>
+  future<see below> when_any(Range rng);
+  template <class Range>
+  future<see below> when_all(Range rng);
+  template <class Range>
+  future<see below> when_swapped_any(Range rng);
+  
+  // 30.6.y, template class unexpected_type  
+  template <class Error>
+  class unexpected_type;  
+  
+  // \ref{futures.make_unexpected_future},  Exceptional factories
+  unexpected_type<exception_ptr> make_unexpected(std::exception_ptr);  
+  unexpected_type<E> make_unexpected(E&& ex);  
+  unexpected_type<exception_ptr> make_unexpected();  
+
+  template <class R>
+  exception_ptr exception_ptr_cast(future<T>&);
+
+}  
+\end{alltt}
+\begin{lstlisting}[xleftmargin=0pt]
+}
+\end{lstlisting}
+
+\noindent
+Update section
+
+\wordingUpdateSubSubSec{30.6.6 Class template future}{futures.unique_future}
+
+3 The effect of calling any member function other than the destructor, the move-assignment operator, or \add{any of the observers} \cpp{valid}, \cpp{is_ready} or \add{\cpp{has_value}} on a future object for which \cpp{valid() == false} is undefined.
+
+%%%%%%%%%%%%%%%%
+\begin{alltt}
+namespace std \{
+  template <class R>
+  class future \{
+  public:
+\add{
+    // parameter typedef
+    typedef R value_type;
+    // Constructor from exceptional_ptr 
+    future(exceptional_ptr&&) noexcept;  
+
+  ...
+    // functions to check state
+    ...
+    bool has_value() const noexcept;
+
+    'see below' value_or('see below');
+  ...
+    // factories
+    template <class S>
+      future<result_of<S(value_type)>> map(S&& cont);
+    template <class S>
+      'see below' bind(S&& cont);
+    template <class R>
+      future<T> catch_error(R&& rec);
+    future<T> fallback_to(T&& v);
+}
+  \};
+\}
+\end{alltt}
+
+\noindent
+Adding
+
+%%%%%%%%%%%%%%%%
+\begin{alltt}
+future(exceptional_ptr&&) noexcept; 
+\end{alltt}
+
+\begin{wordingPara}
+
+\begin{Effects}
+The \cpp{exception_ptr} contained in passed parameter is moved to the shared state of the constructed future. 
+\end{Effects}
+
+\end{wordingPara}
+
+%%%%%%%%%%%%%%%%
+\begin{lstlisting}[xleftmargin=0pt]
+bool has_value() const noexcept;
+\end{lstlisting}
+
+\begin{wordingPara}
+
+\begin{Returns} \cpp{true} if \cpp{*this} is associated with a shared state, that result is ready for retrieval, and the result is a stored value, \cpp{false} otherwise.
+\end{Returns}
+
+\end{wordingPara}
+
+%%%%%%%%%%%%%%%%
+\begin{lstlisting}[xleftmargin=0pt]
+T future<T>::value_or(T&& v) noexcept(see below);
+T future<T>::value_or(T const& v) noexcept(see below);
+T& future<T&>::value_or(T& v) noexcept;
+\end{lstlisting}
+\begin{wordingPara}
+ 
+\begin{Remarks}
+The expression inside \cpp{noexcept} is equivalent to
+\begin{itemize}
+\item \cpp{value_or(T&& v}): \cpp{is_nothrow_move_constructible<T>::value}
+\item \cpp{value_or(T const& v)}: \cpp{is_nothrow_copy_constructible<T>::value}
+\end{itemize}
+\end{Remarks}
+
+\begin{Effects}
+blocks until the future is ready.
+\end{Effects}
+
+\begin{Returns}
+the stored value if \cpp{has_value()} or \cpp{v} otherwise.
+\end{Returns}
+
+\begin{Throws}
+Any exception throw by the move constructor.
+\end{Throws}
+
+\begin{Notes}
+The authors have not found a use case for  \cpp{void future<void>::value_or();}
+\end{Notes}
+
+\end{wordingPara}
+%%%%%%%%%%%%%%%%
+\begin{lstlisting}[xleftmargin=0pt]
+template<class F> 
+future<result_type_t<decay<F>(value_type)>> map(F&& func); 
+template<class Executor, class F> 
+future<result_type_t<decay<F>(value_type)>> map(Executor &ex, F&& func); 
+template<class F> 
+future<result_type_t<decay<F>(value_type)>> map(launch policy, F&& func);
+\end{lstlisting}
+\begin{wordingPara}
+
+\begin{Notes}
+The three functions differ only by input parameters. The first only takes a callable object which accepts a \cpp{value_type} object as a parameter. The second function takes an executor as the first parameter and a callable object which accepts a \cpp{value_type} object as a parameter as the second parameter. The third function takes a launch policy as the first parameter and a callable object which accepts a \cpp{value_type} object as a parameter as the second parameter.
+\end{Notes}
+
+\begin{Effects}
+\begin{itemize}
+
+\item The continuation is called when the object's shared state is ready and has a value. 
+\item The continuation launches according to the specified launch policy or executor. 
+\item When the executor or launch policy is not provided the continuation inherits the parent's 
+launch policy or executor. 
+\item Any value returned from the continuation is stored as the result in the shared state of the resulting \cpp{future}. 
+Any exception propagated from the execution of the continuation is stored as the exceptional result in the shared state of the resulting \cpp{future}
+\item If the parent was created with \cpp{promise} or with a \cpp{packaged_task} (has no associated launch 
+policy), the continuation behaves the same as the third overload with a policy argument of 
+\cpp{launch::async | launch::deferred} and the same argument for \cpp{func}.
+ 
+\item If the parent has a policy of \cpp{launch::deferred} then the parent is filled by immediately calling \cpp{.wait()} or \cpp{get()} on the resulting future. 
+
+\end{itemize}
+\end{Effects}
+
+\begin{Returns}
+Returns an object of preceding type that refers to valid created shared state. When the dependent future is ready by 
+the continuation if the shared state has a value or the future itself if it has an exceptions stored. 
+\end{Returns}
+
+\begin{Postconditions}
+\begin{itemize}
+\item The future object value is moved to the parameter of the continuation function if it was present.
+\item \cpp{valid() == false} on original future object immediately after it returns.
+\item \cpp{valid() == true} for the returned future.
+\end{itemize}
+\end{Postconditions}
+
+\end{wordingPara}
+%%%%%%%%%%%%%%%%
+\begin{lstlisting}[xleftmargin=0pt]
+template<class F> 
+'see below' bind(F&& func); 
+template<class Executor, class F> 
+'see below' bind(Executor &ex, F&& func); 
+template<class F> 
+'see below' bind(launch policy, F&& func);
+\end{lstlisting}
+\begin{wordingPara}
+
+\begin{Notes}
+The three functions differ only by input parameters. The first only takes a callable object which accepts a \cpp{value_type} object as a parameter. The second function takes an executor as the first parameter and a callable object which accepts a \cpp{value_type} object as a parameter as the second parameter. The third function takes a launch policy as the first parameter and a callable object which accepts a \cpp{value_type} object as a parameter as the second parameter.
+\end{Notes}
+
+\begin{Effects}
+\begin{itemize}
+
+\item The continuation is called when the object's shared state is ready  and has a value. 
+\item The continuation launches according to the specified launch policy or executor. 
+\item When the executor or launch policy is not provided the continuation inherits the parent's 
+launch policy or executor. 
+\item Any value returned from the continuation is stored as the result in the shared state of the resulting \cpp{future}. 
+Any exception propagated from the execution of the continuation is stored as the exceptional result in the shared state of the resulting \cpp{future}
+\item If the parent was created with \cpp{promise} or with a \cpp{packaged_task} (has no associated launch 
+policy), the continuation behaves the same as the third overload with a policy argument of 
+\cpp{launch::async | launch::deferred} and the same argument for \cpp{func}.
+ 
+\item If the parent has a policy of \cpp{launch::deferred} then the parent is filled by immediately calling \cpp{.wait()} or \cpp{get()} on the resulting future. 
+
+\end{itemize}
+\end{Effects}
+
+\begin{Returns}
+The return type depends on the return type of the closure func as defined below: 
+
+\begin{itemize}
+\item When \cpp{result_of_t<decay_t<F>(value_type)>} is \cpp{future<R2>}, the function returns \cpp{future<R2>}.
+\item Otherwise, the function returns \cpp{future<result_of_t<decay_t<F>(value_type)>>}. 
+\end{itemize}
+
+Returns an object of preceding type that refers to valid created shared state. When the dependent future is ready by 
+the continuation if the shared state has a value or the future itself if it has an exceptions stored. 
+\end{Returns}
+
+\begin{Postconditions}
+\begin{itemize}
+\item The future object value is moved to the parameter of the continuation function if present.
+\item \cpp{valid() == false} on original future object immediately after it returns.
+\item \cpp{valid() == true} for the returned future.
+\end{itemize}
+\end{Postconditions}
+
+\end{wordingPara}
+%%%%%%%%%%%%%%%%
+\begin{lstlisting}[xleftmargin=0pt]
+template<class F> 
+future<T> catch_error(F&& func); 
+template<class Executor, class F> 
+future<T> catch_error(Executor &ex, F&& func); 
+template<class F> 
+future<T> catch_error(launch policy, F&& func);
+\end{lstlisting}
+\begin{wordingPara}
+
+\begin{Effects}
+\begin{itemize}
+\item The continuation is called when the object's shared state is ready and has an exception with an \cpp{exception_ptr} storing the exception. 
+\item The continuation launches according to the specified launch policy or executor. 
+\item When the executor or launch policy is not provided the continuation inherits the parent's 
+launch policy or executor. 
+\item If the parent was created with \cpp{promise} or with a \cpp{packaged_task} (has no associated launch 
+policy), the continuation behaves the same as the third overload with a policy argument of 
+\cpp{launch::async | launch::deferred} and the same argument for \cpp{func}. 
+\item If the parent has a policy of \cpp{launch::deferred} and the continuation does not have a specified 
+launch policy or scheduler, then the parent is filled by immediately calling \cpp{.wait()}, and the 
+policy of the antecedent is \cpp{launch::deferred}
+\end{itemize}
+\end{Effects}
+ 
+\begin{Returns}
+An object of type \cpp{future<T>} that refers to the shared state created by 
+the continuation if the shared state has an exception or the future itself if it has a value. 
+\end{Returns}
+
+\begin{Postconditions}
+\begin{itemize}
+\item The future object is moved to the parameter of the continuation function 
+\item \cpp{valid() == false} on original future object immediately after it returns
+\end{itemize}
+\end{Postconditions}
+
+\end{wordingPara}
+%%%%%%%%%%%%%%%%
+\begin{lstlisting}[xleftmargin=0pt]
+future<T> future<T>::fallback_to(T v);
+\end{lstlisting}
+\begin{wordingPara}
+
+\begin{Returns}
+a \cpp{future<T>} that would return \cpp{v} when the source future has an exception.
+\end{Returns}
+
+\end{wordingPara}
+%%%%%%%%%%%%%%%%
+
+\noindent
+Update section
+
+\wordingUpdateSubSubSec{30.6.7 Class template shared_future}{futures.shared_future}
+
+\noindent
+To be completed once the wording for future<T> is correct.
+
+\begin{lstlisting}[xleftmargin=0pt]
+\end{lstlisting}
+
+
+\noindent
+Add new section
+
+\wordingNewSubSubSec{30.6.x Function template \cpp{exception_ptr_cast}}{futures.exception_ptr_cast}
+
+%%%%%%%%%%%%%%%%
+\begin{lstlisting}[xleftmargin=0pt]
+exception_ptr exception_ptr_cast() const;
+\end{lstlisting}
+\begin{wordingPara}
+
+\begin{Effects}
+blocks until the future is ready.
+\end{Effects}
+
+\begin{Returns}
+the stored \cpp{exception_ptr}.
+\end{Returns}
+
+\begin{Throws}
+Nothing 
+\end{Throws}
+
+\end{wordingPara}
+
+\noindent
+Add new section
+
+\wordingNewSubSubSec{30.6.x Function template \cpp{make_unexpected}}{futures.make_unexpected}
+
+
+%%%%%%%%%%%%%%%%
+\begin{alltt}
+unexpected_type<exception_ptr> make_unexpected(exception_ptr ex);
+template <class E>
+  unexpected_type<E> make_unexpected(E&& ex);
+unexpected_type<exception_ptr> make_unexpected();
+
+\end{alltt}
+\begin{wordingPara}
+
+\begin{Effects}
+The exception that is passed in to the function or the current exception if no parameter is given is moved into the returned \cpp{unexpected_type<exception_ptr>} if it 
+is an rvalue. Otherwise the exception is copied into the returned \cpp{unexpected_type<exception_ptr>}. 
+\end{Effects}
+ 
+\begin{Returns}
+An \cpp{unexpected_type<exception_ptr>} instance implicitly convertible to a \cpp{future<T>} 
+\end{Returns}
+
+\begin{Postconditions}
+The  \cpp{future<T>} constructed with this instance will satisfy the following postconditions.
+\begin{itemize}
+\item Returned \cpp{future<T>,} \cpp{valid() == true} 
+\item Returned \cpp{future<T>}, \cpp{is_ready() = true}
+\item Returned \cpp{future<T>}, \cpp{has_value() = false}
+\end{itemize}
+\end{Postconditions}
+
+\end{wordingPara}
+%%%%%%%%%%%%%%%%
+\section{Implementability}
+
+Boost.Thread \cite{BOOST_THREAD} provides already the typedef \cpp{value_type}, the observers \cpp{has_value},  \cpp{get_exception_ptr}, \cpp{value_or/get_or}, and the factories \cpp{fallback_to}, \cpp{make_unexpected}. Not yet implemented, \cpp{bind} and \cpp{catch_error}.
+
+\section{Acknowledgement}
+
+I'm very grateful to Niklas Gustafsson, Artur Laksberg, Herb Suttev, Sana Mithani as this proposal would not exists without their proposal  \cite{N3784}.
+
+Thanks to Agust\'{i}n K-ballo Berg\'{e} for its critical comments which have been the motivation of the first revision.
+
+Thanks to Peter Sommerlad for questioning the the intrusiveness of \cpp{get_exception_ptr} which have been the motivation of the second revision.
+
+\newpage
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}
