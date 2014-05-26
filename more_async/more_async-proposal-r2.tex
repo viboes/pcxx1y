@@ -203,8 +203,8 @@
 \maketitle
 \begin{textblock*}{9cm}(7cm,-8cm)
 \begin{tabular}{l l}
-\textbf{Document number:} & DXXXX \\
-\textbf{Date:}  & 2014-05-25 \\
+\textbf{Document number:} & N4048 \\
+\textbf{Date:}  & 2014-05-26 \\
 \textbf{Revises:} & N3865 \\
 \textbf{Project:} & JTC1.22.32 Programming \\
  & Language C++ \\
@@ -218,6 +218,7 @@
 \setcounter{tocdepth}{1}
 
 This paper complements "N3784 Improvements to \cpp{std::future<T>} and Related APIs" \cite{N3784} with more future observers and factories.
+It is a revision of N3865 \cite{N3865} making coherent the expected proposal \cite{N4015} and this one.
 
 The background of the additions of this paper respect to the previous revision is green.
 
@@ -237,7 +238,7 @@ The background of the suppression is magenta.
 \item \update{Change the \cpp{get_exception_ptr()} member function by a free function \cpp{exception_ptr_cast()}.}
 \end{itemize}
 
-\item This revision was presented during the Issaquah meeting
+\item This revision was presented during the Issaquah meeting in revision to N3865 \cite{N3865}.
 \begin{itemize}
 \item Removed \cpp{get_value()} as the exception guaranties can not be improved respect to \cpp{get()}. 
 \item Replaced \cpp{make_exceptional_future(Exception)} by \cpp{make_exceptional(Exception)}. 
